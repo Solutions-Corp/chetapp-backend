@@ -1,0 +1,11 @@
+services:
+  auth:
+    build:
+      context: ./modules/auth
+      dockerfile: Dockerfile
+    volumes:
+      - ./modules/auth:/code
+      
+  krakend:
+    volumes:
+      - ./krakend:/etc/krakend
