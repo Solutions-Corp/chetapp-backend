@@ -17,7 +17,6 @@ class UserLogin(BaseModel):
     password: str
 
 
-
 class UserRead(UserBase):
     id: UUID
     created_at: datetime
@@ -26,3 +25,10 @@ class UserRead(UserBase):
 class Token(BaseModel):
     access_token: str
     token_type: str = "bearer"
+
+
+class TokenPayload(BaseModel):
+    sub: str
+    email: str
+    role: UserRole
+    exp: int
