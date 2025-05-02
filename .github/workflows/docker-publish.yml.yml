@@ -22,4 +22,4 @@ jobs:
           context: ./modules/auth
           file:    ./modules/auth/Dockerfile.prod
           push:    true
-          tags:    ${{ secrets.DOCKERHUB_USERNAME }}//chetapp-backend:latest
+          tags:    ${{ secrets.DOCKERHUB_USERNAME }}/chetapp-backend:latest
