@@ -7,7 +7,7 @@
   "timeout": "10s",
   "endpoints": [
     {
-      "endpoint": "/gateway/api/v1/auth/login",
+      "endpoint": "/gateway/api/auth/login",
       "method": "POST",
       "output_encoding": "no-op",
       "input_headers": ["Content-Type"],
@@ -16,6 +16,21 @@
           "url_pattern": "/api/v1/auth/login",
           "host": ["http://auth:8080"],
           "method": "POST",
+          "encoding": "json",
+          "disable_host_sanitize": false
+        }
+      ]
+    },
+    {
+      "endpoint": "/gateway/api/auth/verify",
+      "method": "GET",
+      "output_encoding": "no-op",
+      "input_headers": ["Content-Type", "Authorization"],
+      "backend": [
+        {
+          "url_pattern": "/api/v1/auth/verify",
+          "host": ["http://auth:8080"],
+          "method": "GET",
           "encoding": "json",
           "disable_host_sanitize": false
         }

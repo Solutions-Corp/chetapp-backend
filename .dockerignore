@@ -9,3 +9,4 @@ README.md
 .git
 ./postgres-data
 .git*
+*.pem

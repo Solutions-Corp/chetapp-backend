@@ -1,8 +1,9 @@
-from src.utils import hash_password, verify_password, create_access_token
+from src.utils import hash_password, verify_password, create_access_token, verify_access_token
+from fastapi import HTTPException, Header
 from src.models import User, UserRole
 from sqlalchemy.orm import Session
-from fastapi import HTTPException
 from src.schemas import UserLogin
+from typing import Optional
 from src.config import settings
 from datetime import datetime
 import uuid
@@ -35,3 +36,17 @@ def authenticate_user(user_data: UserLogin, db: Session) -> str:
     return create_access_token({"sub": str(user.id), "email": user.email, "role": user.role})
 
 
+def verify_token_from_header(authorization: Optional[str] = Header(None)):
+    if not authorization:
+        raise HTTPException(status_code=401, detail="Authorization header missing")
+    
+    scheme, _, token = authorization.partition(" ")
+    if scheme.lower() != "bearer":
+        raise HTTPException(status_code=401, detail="Invalid authentication scheme")
+    if not token:
+        raise HTTPException(status_code=401, detail="Token missing")
+    
+    payload = verify_access_token(token)
+    if not payload:
+        raise HTTPException(status_code=401, detail="Invalid token")
+    return payload
