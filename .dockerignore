@@ -1,0 +1,11 @@
+__pycache__
+*.pyc
+*.venv
+*.env
+Dockerfile
+docker-compose.yml
+.dockerignore
+README.md
+.git
+./postgres-data
+.git*
