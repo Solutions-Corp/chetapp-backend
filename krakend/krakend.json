@@ -34,6 +34,170 @@
           "disable_host_sanitize": false
         }
       ]
+    },
+    {
+      "endpoint": "/fleet/companies",
+      "method": "GET",
+      "output_encoding": "json",
+      "backend": [
+        {
+          "url_pattern": "/api/companies",
+          "encoding": "json",
+          "method": "GET",
+          "host": ["fleet-management:8001"],
+          "disable_host_sanitize": false
+        }
+      ],
+      "input_headers": ["Authorization"]
+    },
+    {
+      "endpoint": "/fleet/companies/{id}",
+      "method": "GET",
+      "output_encoding": "json",
+      "backend": [
+        {
+          "url_pattern": "/api/companies/{id}",
+          "encoding": "json",
+          "method": "GET",
+          "host": ["fleet-management:8001"],
+          "disable_host_sanitize": false
+        }
+      ],
+      "input_headers": ["Authorization"]
+    },
+    {
+      "endpoint": "/fleet/companies",
+      "method": "POST",
+      "output_encoding": "json",
+      "backend": [
+        {
+          "url_pattern": "/api/companies",
+          "encoding": "json",
+          "method": "POST",
+          "host": ["fleet-management:8001"],
+          "disable_host_sanitize": false
+        }
+      ],
+      "input_headers": ["Authorization", "Content-Type"]
+    },
+    {
+      "endpoint": "/fleet/companies/{id}",
+      "method": "PUT",
+      "output_encoding": "json",
+      "backend": [
+        {
+          "url_pattern": "/api/companies/{id}",
+          "encoding": "json",
+          "method": "PUT",
+          "host": ["fleet-management:8001"],
+          "disable_host_sanitize": false
+        }
+      ],
+      "input_headers": ["Authorization", "Content-Type"]
+    },
+    {
+      "endpoint": "/fleet/companies/{id}",
+      "method": "DELETE",
+      "output_encoding": "json",
+      "backend": [
+        {
+          "url_pattern": "/api/companies/{id}",
+          "encoding": "json",
+          "method": "DELETE",
+          "host": ["fleet-management:8001"],
+          "disable_host_sanitize": false
+        }
+      ],
+      "input_headers": ["Authorization"]
+    },
+    {
+      "endpoint": "/fleet/buses",
+      "method": "GET",
+      "output_encoding": "json",
+      "backend": [
+        {
+          "url_pattern": "/api/buses",
+          "encoding": "json",
+          "method": "GET",
+          "host": ["fleet-management:8001"],
+          "disable_host_sanitize": false
+        }
+      ],
+      "input_headers": ["Authorization"]
+    },
+    {
+      "endpoint": "/fleet/buses/{id}",
+      "method": "GET",
+      "output_encoding": "json",
+      "backend": [
+        {
+          "url_pattern": "/api/buses/{id}",
+          "encoding": "json",
+          "method": "GET",
+          "host": ["fleet-management:8001"],
+          "disable_host_sanitize": false
+        }
+      ],
+      "input_headers": ["Authorization"]
+    },
+    {
+      "endpoint": "/fleet/buses",
+      "method": "POST",
+      "output_encoding": "json",
+      "backend": [
+        {
+          "url_pattern": "/api/buses",
+          "encoding": "json",
+          "method": "POST",
+          "host": ["fleet-management:8001"],
+          "disable_host_sanitize": false
+        }
+      ],      "input_headers": ["Authorization", "Content-Type"]
+    },
+    {
+      "endpoint": "/fleet/gps",
+      "method": "GET",
+      "output_encoding": "json",
+      "backend": [
+        {
+          "url_pattern": "/api/gps",
+          "encoding": "json",
+          "method": "GET",
+          "host": ["fleet-management:8001"],
+          "disable_host_sanitize": false
+        }
+      ],
+      "input_headers": ["Authorization"]
+    },
+    {
+      "endpoint": "/fleet/gps/{id}",
+      "method": "GET",
+      "output_encoding": "json",
+      "backend": [
+        {
+          "url_pattern": "/api/gps/{id}",
+          "encoding": "json",
+          "method": "GET",
+          "host": ["fleet-management:8001"],
+          "disable_host_sanitize": false
+        }
+      ],
+      "input_headers": ["Authorization"]
+    },
+    {
+      "endpoint": "/fleet/gps",
+      "method": "POST",
+      "output_encoding": "json",
+      "backend": [
+        {
+          "url_pattern": "/api/gps",
+          "encoding": "json",
+          "method": "POST",
+          "host": ["fleet-management:8001"],
+          "disable_host_sanitize": false
+        }
+      ],
+      "input_headers": ["Authorization", "Content-Type"]
     }
   ],
   "extra_config": {

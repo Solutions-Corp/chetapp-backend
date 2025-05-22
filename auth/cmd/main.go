@@ -37,6 +37,7 @@ func main() {
 
 	userRepository := repository.NewUserRepository(db)
 	userService := service.NewUserService(userRepository)
+	userHandler := handler.NewUserHandler(userService)
 
 	if err := userService.CreateDefaultUser(); err != nil {
 		log.Fatalf("Error creating default user: %v", err)
@@ -45,6 +46,9 @@ func main() {
 	authHandler := handler.NewAuthHandler(userService, &config)
 
 	r.GET("/health", handler.HealthCheckHandler)
+	
+	r.GET("/users/:guid", userHandler.GetUserByID)
+
 	r.POST("/login", authHandler.Login)
 
 	log.Println("Auth service running on :" + config.Port)
