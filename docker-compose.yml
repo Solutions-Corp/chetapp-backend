@@ -92,16 +92,13 @@ services:
       timeout: 5s
       retries: 5
 
-  pgadmin:
-    image: dpage/pgadmin4
-    container_name: chetapp-pgadmin
-    environment:
-      PGADMIN_DEFAULT_EMAIL: "admin@chetapp.com"
-      PGADMIN_DEFAULT_PASSWORD: "admin"
+  dbeaver:
+    image: dbeaver/cloudbeaver:latest
+    container_name: chetapp-dbeaver
     ports:
-      - "5050:80"
+      - "8978:8978"
     volumes:
-      - pgadmin-data:/var/lib/pgadmin
+      - dbeaver-data:/opt/cloudbeaver/workspace
     restart: unless-stopped
     networks:
       - chetapp-network
@@ -110,7 +107,7 @@ services:
       - chetapp-fleet-management-db
 
 volumes:
-  pgadmin-data:
+  dbeaver-data:
     driver: local
   auth-db-data:
     driver: local
