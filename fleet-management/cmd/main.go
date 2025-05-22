@@ -50,6 +50,7 @@ func main() {
 	busHandler := handler.NewBusHandler(busService)
 
 	authMiddleware := middleware.AuthMiddleware(&config)
+	
 	api := r.Group("/api")
 	api.Use(authMiddleware)
 	{

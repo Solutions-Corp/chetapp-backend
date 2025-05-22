@@ -26,13 +26,17 @@ func (h *BusHandler) CreateBus(c *gin.Context) {
 		return
 	}
 
-	userID, exists := c.Get("user_id")
+	userID, exists := c.Get("userID")
 	if !exists {
 		c.JSON(http.StatusUnauthorized, gin.H{"error": "Usuario no autenticado"})
 		return
 	}
 	bus.CreatedBy = userID.(uuid.UUID)
 	bus.UpdatedBy = userID.(uuid.UUID)
+
+	if bus.GpsID != nil && *bus.GpsID == uuid.Nil {
+		bus.GpsID = nil
+	}
 
 	if err := h.busService.CreateBus(&bus); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
@@ -66,5 +70,5 @@ func (h *BusHandler) GetAllBuses(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, buses)
+	c.JSON(http.StatusOK, gin.H{"buses": buses})
 }
