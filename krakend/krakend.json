@@ -1,41 +1,54 @@
 {
-  "$schema": "https://www.krakend.io/schema/v3.json",
   "version": 3,
-  "name": "chetapp-gateway",
+  "name": "Chetapp API Gateway",
   "port": 8080,
-  "cache_ttl": "1s",
-  "timeout": "10s",
+  "cache_ttl": "3600s",
+  "timeout": "3s",
+  "debug_endpoint": true,
+  "output_encoding": "json",
   "endpoints": [
     {
-      "endpoint": "/gateway/api/auth/login",
-      "method": "POST",
-      "output_encoding": "no-op",
-      "input_headers": ["Content-Type"],
+      "endpoint": "/auth/health",
+      "method": "GET",
+      "output_encoding": "json",
       "backend": [
         {
-          "url_pattern": "/api/v1/auth/login",
-          "host": ["http://auth:8080"],
-          "method": "POST",
+          "url_pattern": "/health",
           "encoding": "json",
+          "method": "GET",
+          "host": ["auth:8000"],
           "disable_host_sanitize": false
         }
       ]
     },
     {
-      "endpoint": "/gateway/api/auth/verify",
-      "method": "GET",
-      "output_encoding": "no-op",
-      "input_headers": ["Content-Type", "Authorization"],
+      "endpoint": "/auth/login",
+      "method": "POST",
+      "output_encoding": "json",
       "backend": [
         {
-          "url_pattern": "/api/v1/auth/verify",
-          "host": ["http://auth:8080"],
-          "method": "GET",
+          "url_pattern": "/login",
           "encoding": "json",
+          "method": "POST",
+          "host": ["auth:8000"],
           "disable_host_sanitize": false
         }
       ]
     }
   ],
-  "output_encoding": "json"
+  "extra_config": {
+    "telemetry/logging": {
+      "level": "DEBUG",
+      "prefix": "[KRAKEND]",
+      "syslog": false,
+      "stdout": true
+    },
+    "security/cors": {
+      "allow_origins": ["*"],
+      "allow_methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+      "allow_headers": ["Origin", "Authorization", "Content-Type"],
+      "expose_headers": ["Content-Length"],
+      "max_age": "12h"
+    }
+  }
 }
