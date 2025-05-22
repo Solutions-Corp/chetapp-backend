@@ -41,13 +41,15 @@ func main() {
 	}
 
 	log.Println("Database migration completed")
-
 	companyRepository := repository.NewCompanyRepository(db)
 	companyService := service.NewCompanyService(companyRepository)
 	companyHandler := handler.NewCompanyHandler(companyService)
 
-	authMiddleware := middleware.AuthMiddleware(&config)
+	busRepository := repository.NewBusRepository(db)
+	busService := service.NewBusService(busRepository)
+	busHandler := handler.NewBusHandler(busService)
 
+	authMiddleware := middleware.AuthMiddleware(&config)
 	api := r.Group("/api")
 	api.Use(authMiddleware)
 	{
@@ -56,6 +58,10 @@ func main() {
 		api.GET("/companies", companyHandler.GetAllCompanies)
 		api.PUT("/companies/:id", companyHandler.UpdateCompany)
 		api.DELETE("/companies/:id", companyHandler.DeleteCompany)
+
+		api.POST("/buses", busHandler.CreateBus)
+		api.GET("/buses/:id", busHandler.GetBusByID)
+		api.GET("/buses", busHandler.GetAllBuses)
 	}
 
 	log.Println("Fleet management service running on :" + config.Port)

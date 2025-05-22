@@ -6,12 +6,14 @@ import (
 	"github.com/Solutions-Corp/chetapp-backend/auth/internal/config"
 	"github.com/Solutions-Corp/chetapp-backend/auth/internal/model"
 	"github.com/Solutions-Corp/chetapp-backend/auth/internal/repository"
+	"github.com/google/uuid"
 	"golang.org/x/crypto/bcrypt"
 )
 
 type UserService interface {
 	CreateDefaultUser() error
 	GetUserByEmail(email string) (*model.User, error)
+	GetUserByID(id uuid.UUID) (*model.User, error)
 }
 
 type userService struct {
@@ -62,4 +64,8 @@ func (s *userService) GetUserByEmail(email string) (*model.User, error) {
 		return nil, err
 	}
 	return user, nil
+}
+
+func (s *userService) GetUserByID(id uuid.UUID) (*model.User, error) {
+	return s.userRepository.GetUserByID(id)
 }

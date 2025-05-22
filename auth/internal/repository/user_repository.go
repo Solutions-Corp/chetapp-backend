@@ -4,6 +4,7 @@ import (
 	"errors"
 
 	"github.com/Solutions-Corp/chetapp-backend/auth/internal/model"
+	"github.com/google/uuid"
 	"gorm.io/gorm"
 )
 
@@ -16,6 +17,7 @@ func NewUserRepository(db *gorm.DB) UserRepository {
 type UserRepository interface {
 	CreateUser(user *model.User) error
 	GetUserByEmail(email string) (*model.User, error)
+	GetUserByID(id uuid.UUID) (*model.User, error)
 }
 
 type userRepository struct {
@@ -32,6 +34,20 @@ func (r *userRepository) CreateUser(user *model.User) error {
 func (r *userRepository) GetUserByEmail(email string) (*model.User, error) {
 	var user model.User
 	result := r.db.Where("email = ?", email).First(&user)
+
+	if result.Error != nil {
+		if errors.Is(result.Error, gorm.ErrRecordNotFound) {
+			return nil, nil
+		}
+		return nil, result.Error
+	}
+
+	return &user, nil
+}
+
+func (r *userRepository) GetUserByID(id uuid.UUID) (*model.User, error) {
+	var user model.User
+	result := r.db.Where("id = ?", id).First(&user)
 
 	if result.Error != nil {
 		if errors.Is(result.Error, gorm.ErrRecordNotFound) {
