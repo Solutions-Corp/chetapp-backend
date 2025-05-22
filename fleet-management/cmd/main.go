@@ -4,7 +4,11 @@ import (
 	"log"
 
 	"github.com/Solutions-Corp/chetapp-backend/fleet-management/internal/config"
+	"github.com/Solutions-Corp/chetapp-backend/fleet-management/internal/handler"
+	"github.com/Solutions-Corp/chetapp-backend/fleet-management/internal/middleware"
 	"github.com/Solutions-Corp/chetapp-backend/fleet-management/internal/model"
+	"github.com/Solutions-Corp/chetapp-backend/fleet-management/internal/repository"
+	"github.com/Solutions-Corp/chetapp-backend/fleet-management/internal/service"
 	"github.com/gin-gonic/gin"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
@@ -37,6 +41,22 @@ func main() {
 	}
 
 	log.Println("Database migration completed")
+
+	companyRepository := repository.NewCompanyRepository(db)
+	companyService := service.NewCompanyService(companyRepository)
+	companyHandler := handler.NewCompanyHandler(companyService)
+
+	authMiddleware := middleware.AuthMiddleware(&config)
+
+	api := r.Group("/api")
+	api.Use(authMiddleware)
+	{
+		api.POST("/companies", companyHandler.CreateCompany)
+		api.GET("/companies/:id", companyHandler.GetCompany)
+		api.GET("/companies", companyHandler.GetAllCompanies)
+		api.PUT("/companies/:id", companyHandler.UpdateCompany)
+		api.DELETE("/companies/:id", companyHandler.DeleteCompany)
+	}
 
 	log.Println("Fleet management service running on :" + config.Port)
 	log.Fatal(r.Run(":" + config.Port))

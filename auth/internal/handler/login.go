@@ -8,6 +8,7 @@ import (
 	"github.com/Solutions-Corp/chetapp-backend/auth/internal/service"
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v5"
+	"github.com/google/uuid"
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -50,7 +51,7 @@ func (h *AuthHandler) Login(c *gin.Context) {
 		return
 	}
 
-	token, err := generateToken(user.Email, h.config.JWTSecret)
+	token, err := generateToken(user.ID, h.config.JWTSecret)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Internal server error"})
 		return
@@ -59,10 +60,10 @@ func (h *AuthHandler) Login(c *gin.Context) {
 	c.JSON(http.StatusOK, LoginResponse{Token: token})
 }
 
-func generateToken(email, secret string) (string, error) {
+func generateToken(id uuid.UUID, secret string) (string, error) {
 	claims := jwt.MapClaims{
-		"email": email,
-		"exp":   time.Now().Add(time.Hour * 72).Unix(),
+		"id":  id,
+		"exp": time.Now().Add(time.Hour * 72).Unix(),
 	}
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 	return token.SignedString([]byte(secret))
