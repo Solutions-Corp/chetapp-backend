@@ -2,10 +2,8 @@ package service
 
 import (
 	"encoding/json"
-	"fmt"
 	"io"
 
-	"strings"
 	"time"
 
 	"github.com/Solutions-Corp/chetapp-backend/routes/internal/model"
@@ -97,10 +95,4 @@ func (s *routeService) ProcessGPXFile(reader io.Reader, origin string, destinati
 	}
 
 	return route, nil
-}
-
-func formatCoordinate(coord model.Coordinate) string {
-	return strings.TrimSpace(
-		fmt.Sprintf("%.6f, %.6f", coord.Latitude, coord.Longitude),
-	)
 }

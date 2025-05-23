@@ -92,7 +92,8 @@
           "host": ["fleet-management:8001"],
           "disable_host_sanitize": false
         }
-      ],      "input_headers": ["Authorization", "Content-Type"]
+      ],
+      "input_headers": ["Authorization", "Content-Type"]
     },
     {
       "endpoint": "/fleet/companies/{id}",
@@ -151,7 +152,8 @@
           "host": ["fleet-management:8001"],
           "disable_host_sanitize": false
         }
-      ],      "input_headers": ["Authorization", "Content-Type"]
+      ],
+      "input_headers": ["Authorization", "Content-Type"]
     },
     {
       "endpoint": "/fleet/gps",
@@ -182,7 +184,8 @@
         }
       ],
       "input_headers": ["Authorization"]
-    },    {
+    },
+    {
       "endpoint": "/fleet/gps",
       "method": "POST",
       "output_encoding": "json",
