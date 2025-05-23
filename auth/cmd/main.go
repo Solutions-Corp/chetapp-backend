@@ -42,11 +42,15 @@ func main() {
 	if err := userService.CreateDefaultUser(); err != nil {
 		log.Fatalf("Error creating default user: %v", err)
 	}
-
 	authHandler := handler.NewAuthHandler(userService, &config)
 
+	// Inicializa las métricas de Prometheus
+	handler.SetupPrometheusMetrics()
+
 	r.GET("/health", handler.HealthCheckHandler)
-	
+	// Endpoint para métricas de Prometheus
+	r.GET("/metrics", handler.PrometheusHandler())
+
 	r.GET("/users/:guid", userHandler.GetUserByID)
 
 	r.POST("/login", authHandler.Login)

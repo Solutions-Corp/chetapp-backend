@@ -1,0 +1,33 @@
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+# Alertmanager configuration
+alerting:
+  alertmanagers:
+  - static_configs:
+    - targets: # En este momento no tenemos Alertmanager configurado
+
+rule_files:
+
+scrape_configs:
+  - job_name: "prometheus"
+    static_configs:
+      - targets: ["localhost:9090"]
+      
+  - job_name: "auth"
+    metrics_path: "/metrics"
+    scrape_interval: 10s
+    static_configs:
+      - targets: ["auth:8000"]
+  - job_name: "fleet-management"
+    metrics_path: "/metrics"
+    scrape_interval: 10s
+    static_configs:
+      - targets: ["fleet-management:8001"]
+
+  - job_name: "routes"
+    metrics_path: "/metrics"
+    scrape_interval: 10s
+    static_configs:
+      - targets: ["routes:8082"]
