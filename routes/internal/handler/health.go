@@ -10,28 +10,32 @@ import (
 )
 
 var (
-	// Define algunas métricas básicas
-	authRequests = promauto.NewCounter(prometheus.CounterOpts{
-		Name: "auth_requests_total",
-		Help: "El número total de solicitudes al servicio de autenticación",
+	// Define algunas métricas básicas para routes
+	routesTotal = promauto.NewCounter(prometheus.CounterOpts{
+		Name: "routes_total",
+		Help: "El número total de rutas registradas",
 	})
 
-	authUsers = promauto.NewGauge(prometheus.GaugeOpts{
-		Name: "auth_users_active",
-		Help: "El número actual de usuarios activos",
+	routesActive = promauto.NewGauge(prometheus.GaugeOpts{
+		Name: "routes_active",
+		Help: "El número de rutas activas",
+	})
+
+	wsConnections = promauto.NewGauge(prometheus.GaugeOpts{
+		Name: "ws_connections_active",
+		Help: "El número de conexiones WebSocket activas",
 	})
 )
 
 // SetupPrometheusMetrics inicializa las métricas y registra algunos valores de ejemplo
 func SetupPrometheusMetrics() {
-	// Aumenta la métrica de solicitudes totales
-	authRequests.Inc()
-
-	// Establece un valor de ejemplo para usuarios activos
-	authUsers.Set(10)
+	// Establece valores de ejemplo
+	routesTotal.Inc()
+	routesActive.Set(1)
+	wsConnections.Set(0)
 }
 
-// Uso normal con JSON
+// Endpoint de salud tradicional
 func HealthCheckHandler(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"status": "ok"})
 }

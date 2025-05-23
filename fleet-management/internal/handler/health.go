@@ -10,28 +10,32 @@ import (
 )
 
 var (
-	// Define algunas métricas básicas
-	authRequests = promauto.NewCounter(prometheus.CounterOpts{
-		Name: "auth_requests_total",
-		Help: "El número total de solicitudes al servicio de autenticación",
+	// Define algunas métricas básicas para fleet-management
+	fleetBuses = promauto.NewCounter(prometheus.CounterOpts{
+		Name: "fleet_buses_total",
+		Help: "El número total de autobuses registrados",
 	})
 
-	authUsers = promauto.NewGauge(prometheus.GaugeOpts{
-		Name: "auth_users_active",
-		Help: "El número actual de usuarios activos",
+	fleetGpsDevices = promauto.NewGauge(prometheus.GaugeOpts{
+		Name: "fleet_gps_devices_active",
+		Help: "El número actual de dispositivos GPS activos",
+	})
+
+	fleetCompanies = promauto.NewGauge(prometheus.GaugeOpts{
+		Name: "fleet_companies_total",
+		Help: "El número total de compañías registradas",
 	})
 )
 
 // SetupPrometheusMetrics inicializa las métricas y registra algunos valores de ejemplo
 func SetupPrometheusMetrics() {
-	// Aumenta la métrica de solicitudes totales
-	authRequests.Inc()
-
-	// Establece un valor de ejemplo para usuarios activos
-	authUsers.Set(10)
+	// Establece valores de ejemplo
+	fleetBuses.Inc()
+	fleetGpsDevices.Set(5)
+	fleetCompanies.Set(2)
 }
 
-// Uso normal con JSON
+// Endpoint de salud tradicional
 func HealthCheckHandler(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"status": "ok"})
 }

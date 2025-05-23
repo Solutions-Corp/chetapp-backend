@@ -54,10 +54,16 @@ func main() {
 
 	hub := websocket.NewHub()
 	go hub.Run()
-
 	r.GET("/ws", func(c *gin.Context) {
 		websocket.ServeWs(hub, c)
 	})
+
+	// Inicializa las métricas de Prometheus
+	handler.SetupPrometheusMetrics()
+
+	// Endpoints de salud y métricas sin autenticación
+	r.GET("/api/health", handler.HealthCheckHandler)
+	r.GET("/metrics", handler.PrometheusHandler())
 
 	log.Println("Routes service running on :" + config.Port)
 	log.Fatal(r.Run(":" + config.Port))

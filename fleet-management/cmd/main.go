@@ -51,9 +51,15 @@ func main() {
 	gpsRepository := repository.NewGpsRepository(db)
 	gpsService := service.NewGpsService(gpsRepository)
 	gpsHandler := handler.NewGpsHandler(gpsService)
+	// Inicializa las métricas de Prometheus
+	handler.SetupPrometheusMetrics()
+
+	// Endpoints de salud y métricas sin autenticación
+	r.GET("/api/health", handler.HealthCheckHandler)
+	r.GET("/metrics", handler.PrometheusHandler())
 
 	authMiddleware := middleware.AuthMiddleware(&config)
-	
+
 	api := r.Group("/api")
 	api.Use(authMiddleware)
 	{
