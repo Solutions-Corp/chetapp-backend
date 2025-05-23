@@ -74,6 +74,19 @@ services:
       - fleet-management
       - routes
 
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    container_name: chetapp-nginx
+    ports:
+      - "80:80"
+    restart: unless-stopped
+    networks:
+      - chetapp-network
+    depends_on:
+      - krakend
+
   auth-db:
     image: postgres:17-bullseye
     container_name: chetapp-auth-db
