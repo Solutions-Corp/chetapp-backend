@@ -151,17 +151,12 @@ func (h *RouteHandler) UploadGPX(c *gin.Context) {
 		return
 	}
 
-	file, header, err := c.Request.FormFile("gpx_file")
+	file, _, err := c.Request.FormFile("gpx_file")
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Error al recibir el archivo: " + err.Error()})
 		return
 	}
 	defer file.Close()
-
-	name := c.PostForm("name")
-	if name == "" {
-		name = header.Filename
-	}
 
 	origin := c.PostForm("origin")
 	destination := c.PostForm("destination")
