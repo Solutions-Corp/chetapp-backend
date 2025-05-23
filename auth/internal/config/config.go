@@ -18,7 +18,7 @@ func LoadConfig() (Config, error) {
 	viper.SetDefault("DEFAULT_USER_EMAIL", "admin@chetapp.com")
 	viper.SetDefault("DEFAULT_USER_PASSWORD", "qC0sTVXwfJkUg4hDp8yX")
 	viper.SetDefault("DATABASE_URL", "postgres://postgres:postgres@auth-db:5432/chetapp-auth-db")
-	viper.SetDefault("JWT_SECRET", "your_jwt_secret")
+	viper.SetDefault("JWT_SECRET", "secret")
 
 	viper.SetConfigName("config")
 	viper.SetConfigType("env")

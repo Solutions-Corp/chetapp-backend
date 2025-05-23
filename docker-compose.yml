@@ -39,6 +39,26 @@ services:
       - DB_PASSWORD=postgres
       - DB_NAME=chetapp-fleet-management-db
 
+  routes:
+    build:
+      context: ./routes
+      dockerfile: Dockerfile
+    container_name: chetapp-routes
+    ports:
+      - "8082:8082"
+    restart: unless-stopped
+    depends_on:
+      routes-db:
+        condition: service_healthy
+    networks:
+      - chetapp-network
+    environment:
+      - DB_HOST=chetapp-routes-db
+      - DB_PORT=5432
+      - DB_USER=postgres
+      - DB_PASSWORD=postgres
+      - DB_NAME=chetapp-routes-db
+
   krakend:
     build:
       context: ./krakend
@@ -51,6 +71,8 @@ services:
       - chetapp-network
     depends_on:
       - auth
+      - fleet-management
+      - routes
 
   auth-db:
     image: postgres:17-bullseye
@@ -71,7 +93,6 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
-
   chetapp-fleet-management-db:
     image: postgres:17-bullseye
     container_name: chetapp-fleet-management-db
@@ -83,6 +104,26 @@ services:
       - "5434:5432"
     volumes:
       - fleet-management-db-data:/var/lib/postgresql/data
+    restart: unless-stopped
+    networks:
+      - chetapp-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  routes-db:
+    image: postgres:17-bullseye
+    container_name: chetapp-routes-db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: chetapp-routes-db
+    ports:
+      - "5435:5432"
+    volumes:
+      - routes-db-data:/var/lib/postgresql/data
     restart: unless-stopped
     networks:
       - chetapp-network
@@ -112,6 +153,8 @@ volumes:
   auth-db-data:
     driver: local
   fleet-management-db-data:
+    driver: local
+  routes-db-data:
     driver: local
 
 networks:

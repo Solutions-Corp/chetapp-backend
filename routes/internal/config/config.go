@@ -12,8 +12,8 @@ type Config struct {
 
 func LoadConfig() (Config, error) {
 	var config Config
-	viper.SetDefault("PORT", "8001")
-	viper.SetDefault("DATABASE_URL", "postgres://postgres:postgres@chetapp-fleet-management-db:5432/chetapp-fleet-management-db")
+	viper.SetDefault("PORT", "8082")
+	viper.SetDefault("DATABASE_URL", "postgres://postgres:postgres@chetapp-routes-db:5432/chetapp-routes-db")
 	viper.SetDefault("JWT_SECRET", "secret")
 
 	viper.SetConfigName("config")

@@ -92,8 +92,7 @@
           "host": ["fleet-management:8001"],
           "disable_host_sanitize": false
         }
-      ],
-      "input_headers": ["Authorization", "Content-Type"]
+      ],      "input_headers": ["Authorization", "Content-Type"]
     },
     {
       "endpoint": "/fleet/companies/{id}",
@@ -183,8 +182,7 @@
         }
       ],
       "input_headers": ["Authorization"]
-    },
-    {
+    },    {
       "endpoint": "/fleet/gps",
       "method": "POST",
       "output_encoding": "json",
@@ -194,6 +192,96 @@
           "encoding": "json",
           "method": "POST",
           "host": ["fleet-management:8001"],
+          "disable_host_sanitize": false
+        }
+      ],
+      "input_headers": ["Authorization", "Content-Type"]
+    },
+    {
+      "endpoint": "/routes",
+      "method": "GET",
+      "output_encoding": "json",
+      "backend": [
+        {
+          "url_pattern": "/api/routes",
+          "encoding": "json",
+          "method": "GET",
+          "host": ["routes:8082"],
+          "disable_host_sanitize": false
+        }
+      ],
+      "input_headers": ["Authorization"]
+    },
+    {
+      "endpoint": "/routes/{id}",
+      "method": "GET",
+      "output_encoding": "json",
+      "backend": [
+        {
+          "url_pattern": "/api/routes/{id}",
+          "encoding": "json",
+          "method": "GET",
+          "host": ["routes:8082"],
+          "disable_host_sanitize": false
+        }
+      ],
+      "input_headers": ["Authorization"]
+    },
+    {
+      "endpoint": "/routes",
+      "method": "POST",
+      "output_encoding": "json",
+      "backend": [
+        {
+          "url_pattern": "/api/routes",
+          "encoding": "json",
+          "method": "POST",
+          "host": ["routes:8082"],
+          "disable_host_sanitize": false
+        }
+      ],
+      "input_headers": ["Authorization", "Content-Type"]
+    },
+    {
+      "endpoint": "/routes/{id}",
+      "method": "PUT",
+      "output_encoding": "json",
+      "backend": [
+        {
+          "url_pattern": "/api/routes/{id}",
+          "encoding": "json",
+          "method": "PUT",
+          "host": ["routes:8082"],
+          "disable_host_sanitize": false
+        }
+      ],
+      "input_headers": ["Authorization", "Content-Type"]
+    },
+    {
+      "endpoint": "/routes/{id}",
+      "method": "DELETE",
+      "output_encoding": "json",
+      "backend": [
+        {
+          "url_pattern": "/api/routes/{id}",
+          "encoding": "json",
+          "method": "DELETE",
+          "host": ["routes:8082"],
+          "disable_host_sanitize": false
+        }
+      ],
+      "input_headers": ["Authorization"]
+    },
+    {
+      "endpoint": "/routes/upload-gpx",
+      "method": "POST",
+      "output_encoding": "json",
+      "backend": [
+        {
+          "url_pattern": "/api/routes/upload-gpx",
+          "encoding": "json",
+          "method": "POST",
+          "host": ["routes:8082"],
           "disable_host_sanitize": false
         }
       ],
