@@ -63,7 +63,7 @@ func (h *RouteHandler) GetAllRoutes(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, routes)
+	c.JSON(http.StatusOK, gin.H{"routes": routes})
 }
 
 func (h *RouteHandler) GetRouteByID(c *gin.Context) {
@@ -163,7 +163,11 @@ func (h *RouteHandler) UploadGPX(c *gin.Context) {
 		name = header.Filename
 	}
 
-	route, err := h.routeService.ProcessGPXFile(file, name, userID, userID)
+	origin := c.PostForm("origin")
+	destination := c.PostForm("destination")
+
+	route, err := h.routeService.ProcessGPXFile(file, origin, destination, userID, userID)
+
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Error al procesar el archivo GPX: " + err.Error()})
 		return

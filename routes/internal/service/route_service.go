@@ -21,7 +21,7 @@ type RouteService interface {
 	GetAllRoutes() ([]model.Route, error)
 	UpdateRoute(route *model.Route) error
 	DeleteRoute(id uuid.UUID) error
-	ProcessGPXFile(reader io.Reader, name string, createdBy uuid.UUID, updatedBy uuid.UUID) (*model.Route, error)
+	ProcessGPXFile(reader io.Reader, origin string, destination string, createdBy uuid.UUID, updatedBy uuid.UUID) (*model.Route, error)
 }
 
 type routeService struct {
@@ -53,7 +53,7 @@ func (s *routeService) DeleteRoute(id uuid.UUID) error {
 	return s.routeRepository.DeleteRoute(id)
 }
 
-func (s *routeService) ProcessGPXFile(reader io.Reader, name string, createdBy uuid.UUID, updatedBy uuid.UUID) (*model.Route, error) {
+func (s *routeService) ProcessGPXFile(reader io.Reader, origin string, destination string, createdBy uuid.UUID, updatedBy uuid.UUID) (*model.Route, error) {
 	gpxData, err := io.ReadAll(reader)
 	if err != nil {
 		return nil, err
@@ -76,13 +76,6 @@ func (s *routeService) ProcessGPXFile(reader io.Reader, name string, createdBy u
 		}
 	}
 
-	origin := ""
-	destination := ""
-	if len(coordinates) > 0 {
-		origin = formatCoordinate(coordinates[0])
-		destination = formatCoordinate(coordinates[len(coordinates)-1])
-	}
-
 	coordinatesJSON, err := json.Marshal(coordinates)
 	if err != nil {
 		return nil, err
@@ -90,7 +83,6 @@ func (s *routeService) ProcessGPXFile(reader io.Reader, name string, createdBy u
 
 	route := &model.Route{
 		ID:          uuid.New(),
-		Name:        name,
 		Origin:      origin,
 		Destination: destination,
 		Coordinates: datatypes.JSON(coordinatesJSON),

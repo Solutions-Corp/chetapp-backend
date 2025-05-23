@@ -15,7 +15,6 @@ type Coordinate struct {
 
 type Route struct {
 	ID          uuid.UUID      `gorm:"type:uuid;default:uuid_generate_v4();primaryKey" json:"id"`
-	Name        string         `gorm:"type:varchar(255);not null" json:"name"`
 	Origin      string         `gorm:"type:varchar(255);not null" json:"origin"`
 	Destination string         `gorm:"type:varchar(255);not null" json:"destination"`
 	Coordinates datatypes.JSON `gorm:"type:jsonb;not null" json:"coordinates"`
