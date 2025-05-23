@@ -9,6 +9,7 @@ import (
 	"github.com/Solutions-Corp/chetapp-backend/routes/internal/model"
 	"github.com/Solutions-Corp/chetapp-backend/routes/internal/repository"
 	"github.com/Solutions-Corp/chetapp-backend/routes/internal/service"
+	"github.com/Solutions-Corp/chetapp-backend/routes/internal/websocket"
 	"github.com/gin-gonic/gin"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
@@ -50,6 +51,13 @@ func main() {
 		api.GET("/routes/:id", routeHandler.GetRouteByID)
 		api.POST("/routes/upload-gpx", routeHandler.UploadGPX)
 	}
+
+	hub := websocket.NewHub()
+	go hub.Run()
+
+	r.GET("/ws", func(c *gin.Context) {
+		websocket.ServeWs(hub, c)
+	})
 
 	log.Println("Routes service running on :" + config.Port)
 	log.Fatal(r.Run(":" + config.Port))
